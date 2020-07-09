@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-// xWriter ...
-type xWriter struct {
+// zWriter ...
+type zWriter struct {
 	baseDir  string
 	dateDir  string
 	dnFormat string
@@ -32,7 +32,7 @@ func NewDefault() {
 
 // New a logger
 func New(prefix string, flag int) {
-	w := &xWriter{
+	w := &zWriter{
 		baseDir:  "./zlog",
 		dateDir:  "",
 		dnFormat: "200601",
@@ -45,7 +45,7 @@ func New(prefix string, flag int) {
 }
 
 // Write ...
-func (w *xWriter) Write(p []byte) (n int, err error) {
+func (w *zWriter) Write(p []byte) (n int, err error) {
 	w.mu.Lock()
 	defer w.mu.Unlock()
 
@@ -72,13 +72,13 @@ func (w *xWriter) Write(p []byte) (n int, err error) {
 	return w.fd.Write(p)
 }
 
-func (w *xWriter) openFile() {
+func (w *zWriter) openFile() {
 	w.fileName = time.Now().Format(w.fnFormat)
 	fPath := filepath.Join(w.baseDir, w.dateDir, w.fileName+w.ext)
 	w.fd, _ = os.OpenFile(fPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 }
 
-func (w *xWriter) rotate() {
+func (w *zWriter) rotate() {
 	oldPath := filepath.Join(w.baseDir, w.dateDir, w.fileName+w.ext)
 	newFileName := fmt.Sprintf("%s_%d%s", w.fileName, time.Now().Unix(), w.ext)
 	newPath := filepath.Join(w.baseDir, w.dateDir, newFileName)
