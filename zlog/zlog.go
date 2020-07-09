@@ -1,4 +1,4 @@
-package xlog
+package zlog
 
 import (
 	"fmt"
@@ -33,7 +33,7 @@ func NewDefault() {
 // New a logger
 func New(prefix string, flag int) {
 	w := &xWriter{
-		baseDir:  "./log",
+		baseDir:  "./zlog",
 		dateDir:  "",
 		dnFormat: "200601",
 		fileName: "",
