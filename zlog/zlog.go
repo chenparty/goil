@@ -27,21 +27,21 @@ var logger *log.Logger
 
 // NewDefault a logger
 func NewDefault() {
-	New("", log.Ldate|log.Ltime|log.Lshortfile)
+	New("./zlog", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
 // New a logger
-func New(prefix string, flag int) {
+func New(dir string, flag int) {
 	w := &zWriter{
-		baseDir:  "./zlog",
+		baseDir:  dir,
 		dateDir:  "",
 		dnFormat: "200601",
 		fileName: "",
 		fnFormat: "02",
 		ext:      ".log",
-		maxBytes: 1024,
+		maxBytes: 2 * 1024 * 1024,
 	}
-	logger = log.New(w, prefix, flag)
+	logger = log.New(w, "", flag)
 }
 
 // Write ...
